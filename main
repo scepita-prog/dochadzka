@@ -1,1 +1,784 @@
+function myFunction(volanie) {
+  
+  var poradieMena, menoVMesiaci
+  
+  for(var i = 1; i < 20; i++)
+  {
+    if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 25).getValue()==SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(5, 12).getValue())
+    poradieMena=i
+  }
+  
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(3,12).activate();
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(3, 12).setValue("Prebieha vypis dochádzky...")
+  spreadsheet.getActiveRangeList().setBackground('#00ff00');
+  
+  var meno1 = Session.getActiveUser().getEmail();
+ Logger.log(meno1);
+  
+  var date = new Date();
+var nacitajMesiac = date.getMonth();
+  var nacitajRok = date.getYear();
+var aktualMesiac           
+
+  if  (nacitajMesiac == 0) {
+   aktualMesiac = "Január";
+  }if (nacitajMesiac === 1) {
+   aktualMesiac = "Február";
+  }if (nacitajMesiac === 2) {
+   aktualMesiac = "Marec";
+  }if (nacitajMesiac === 3) {
+   aktualMesiac = "Apríl";
+  }if (nacitajMesiac === 4) {
+   aktualMesiac = "Máj";
+  }if (nacitajMesiac === 5) {
+   aktualMesiac = "Jún";   
+  }if (nacitajMesiac === 6) { 
+   aktualMesiac = "Júl"; 
+  }if (nacitajMesiac === 7) {
+   aktualMesiac = "August";  
+  }if (nacitajMesiac === 8) {
+   aktualMesiac = "September";  
+  }if (nacitajMesiac === 9) {
+   aktualMesiac = "Október";  
+  }if (nacitajMesiac === 10){
+  aktualMesiac = "November";
+  }else if (nacitajMesiac === 11){
+  aktualMesiac = "December";
+  }
+ var priznak=0
+ 
+ /*if (volanie=="spustiKliknutim")
+   priznak=1
+   else
+     priznak=0
+ 
+     
+  if(priznak=="1"){ 
+    if(meno1=="scepita@gmail.com")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange("L5").setValue("scepita");
+    if(meno1=="tomas.gomulec@gmail.com")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange("L5").setValue("gomulec");
+  }*/
+ 
+  var meno= SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange("L5").getValue();
+  
+  //SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange("M5").setValue(aktualMesiac)
+var mesiac = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange("M5").getValue(); 
+  //SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange("N5").setValue(nacitajRok)
+  var rok = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange("N5").getValue();
+var pociatokNacitania;
+  var vypisovaneMeno;
+  var den;
+  var cisloDna;
+  var krok=6;
+  var nadcas; 
+  var posun=0;
+    var cisloMesiac;
+  var pocetDovolenky=1;
+  var poradieListka=1;
+  var volno=0;
+  var koniecDovolenky;
+  
+  var cyklus;
+ 
+  
+  for (var i = 1; i < 230; i++) {
+  
+    if(mesiac=="Január" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Január"){
+      cyklus=31;
+      pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="Február" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Február"){
+    if (rok=="2020" ||rok=="2024" ||rok=="2028" ||rok=="2032" ||rok=="2036" ||rok=="2040")
+      cyklus=29;
+    else
+      cyklus=28;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="Marec" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Marec"){
+      cyklus=31;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="Apríl" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Apríl"){
+      cyklus=30;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="Máj" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Máj"){
+      cyklus=31;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="Jún" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Jún"){
+      cyklus=30;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="Júl" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Júl"){
+      cyklus=31;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="August" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="August"){
+      cyklus=31;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="September" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="September"){
+      cyklus=30;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="Október" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="Október"){
+      cyklus=31;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="November" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="November"){
+      cyklus=30;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+  if(mesiac=="December" && SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i, 3).getValue()=="December"){
+      cyklus=31;
+    pociatokNacitania=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(i+3, i).getRow();}
+    
+   /*Browser.msgBox(pociatokNacitania);*/
+  }
+  
+  for(var a = 0; a < 15; a++)
+  {
+    if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania+a, 3).getValue()==SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(5, 12).getValue())
+    menoVMesiaci=pociatokNacitania+a;
+    //Browser.msgBox(menoVMesiaci)
+      }  
+  
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(6, 1, 60, 11).activate();
+  spreadsheet.getActiveRangeList().clear({contentsOnly: true, skipFilteredRows: true});
+  
+  for (var i = 0; i < cyklus+1; i++) {
+    
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(1, 3).setValue(mesiac +" "+ rok)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(3, 3).setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 24).getValue())
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(2, 3).setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 23).getValue())
+             
+      var nastavenie0=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(menoVMesiaci, 2+i).getValue();
+    var nastavenie=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(menoVMesiaci, 3+i).getValue();
+    var sviatok =SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-3, 3+i).getValue();
+    var sviatok1 =SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-3, 4+i).getValue();
+    var nadcas=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(menoVMesiaci, 44).getValue();
+    
+    
+    
+    
+    var den=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-1, 3+i).getValue();
+    var den1=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-1, 4+i).getValue();
+    var cisloDna=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-2, 3+i).getValue();
+    var cisloDna1=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-2, 4+i).getValue();
+    
+       
+    if(nastavenie=="" && nastavenie0!="N"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      posun++
+    }
+    
+    if (nastavenie=="R"){      
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 3).setValue("6:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 4).setValue("18:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 5).setValue("13:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 6).setValue("13:30")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 7).setValue("0:30")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 8).setValue("11:30")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 11).setValue("R")
+      posun++
+    }
+    
+    if (nastavenie=="N"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 3).setValue("18:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 4).setValue("00:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 3).setValue("00:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 4).setValue("06:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 8).setValue("06:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 5).setValue("01:00")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 6).setValue("01:30")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 7).setValue("00:30")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 8).setValue("05:30")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      if(sviatok1=="SS")
+         {
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 10).setValue(sviatok1)
+     // Browser.msgBox(sviatok1)
+         }
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 1).setValue(den1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 2).setValue(cisloDna+1)
+      
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 11).setValue("N")
+      
+      if(cisloDna==28 && cyklus==28){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 2).setValue(1)
+      var den=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-1, 2+i-5).getValue();
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 1).setValue(den)
+      }
+      if(cisloDna==30 && cyklus==30){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 2).setValue(1)
+      var den=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-1, 2+i-5).getValue();
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 1).setValue(den)
+      }
+      if(cisloDna==31 && cyklus==31){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 2).setValue(1)
+      var den=SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(pociatokNacitania-1, 2+i-5).getValue();
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+1+posun, 1).setValue(den)
+      }
+      /*SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName(rok).getRange(menoVMesiaci, 1+i).getValue()=="N")
+     SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun-1, 10).setValue(sviatok)*/
+        krok=krok+1   
+      posun++
+      }
+    
+    
+    
+      if (nastavenie=="D"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 9).setValue("D")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      posun++
+    }
+    
+      if (nastavenie=="S"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 9).setValue("S")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      posun++
+    }
+    
+      if (nastavenie=="PN"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 9).setValue("PN")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      posun++
+    }
+    
+      if (nastavenie=="L"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 9).setValue("L")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      posun++
+    }
+    
+      if (nastavenie=="P"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 9).setValue("P")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      posun++
+    }
+    
+      if (nastavenie=="K"){
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 1).setValue(den)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 2).setValue(cisloDna)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 9).setValue("K")
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(krok+posun, 10).setValue(sviatok)
+      posun++
+    } 
+  }
+  
+  
+   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(6, 1, 80, 9).activate();
+  spreadsheet.getActiveRangeList().setBorder(false, false, false, false, false, false)
+  
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  var poslednePole=(krok+posun-1)
+  var sumaPraca= '=SUM(H6:'+'H'+poslednePole+')'
+  spreadsheet.getRange(poslednePole+1, 8).activate();
+  spreadsheet.getCurrentCell().setFormula(sumaPraca);
+  spreadsheet.getActiveRangeList().setNumberFormat('[h]":"mm');
+  
+      var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  var sumaPauza='=SUM(G6:G'+poslednePole+')'
+  spreadsheet.getRange(poslednePole+1, 7).activate();
+  spreadsheet.getCurrentCell().setFormula(sumaPauza);
+  spreadsheet.getActiveRangeList().setNumberFormat('[h]":"mm');
+    
+   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(6, 1, poslednePole-5, 9).activate();
+  spreadsheet.getActiveRangeList().setBorder(false, false, false, false, false, false)
+  .setBorder(true, true, true, true, true, true, '#000000', SpreadsheetApp.BorderStyle.SOLID)
+  .setHorizontalAlignment('center');
+  
+   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(6, 1, poslednePole-5, 2).activate();
+  spreadsheet.getActiveRangeList().setFontWeight('bold')
+  .setFontSize(10);
+  
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(poslednePole+2,1).activate();
+  spreadsheet.getRange('AD1:AE12').copyTo(spreadsheet.getActiveRange(), SpreadsheetApp.CopyPasteType.PASTE_NORMAL, false);
+  
+  
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+2, 7).setValue("Podpis zamestnanca");
+  if(poradieMena==1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB1')
+  if(poradieMena==2)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB2')
+  if(poradieMena==3)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB3')
+  if(poradieMena==4)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB4')
+  if(poradieMena==5)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB5')
+  if(poradieMena==6)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB6')
+  if(poradieMena==7)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB7')
+  if(poradieMena==8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB8')
+  if(poradieMena==9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB9')
+  if(poradieMena==10)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB10')
+  if(poradieMena==11)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB11')
+  if(poradieMena==12)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+3, 7).setValue('=\'mennaDochadzka\'!AB12')
+             
+  
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+4, 7).setValue("Podpis nadriadeného")
+      if(poradieMena<9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+5, 7).setValue('=\'mennaDochadzka\'!AB14')
+      if(poradieMena>8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+5, 7).setValue('=\'mennaDochadzka\'!AB13')
+      
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+8, 5).setValue("Popis cinnosti: Riešenie incidentov - starostlivosť o zákazníka a dohľad siete")
+     
+      
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poslednePole+1+10, 4).setValue("Nariadená nadčasová práca " + nadcas + " hod.")
+  
+      for (var i = 6; i < 55; i++){
+        if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 1).getValue()=="So" || SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 1).getValue()=="Ne" ||SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 10).getValue()=="SS")
+        {
+   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(i,1,i,9).activate();
+  spreadsheet.getActiveRangeList().setBackground('#fff2cc');
+          
+          if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 10).getValue()=="SS")
+        {
+   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(i,1,i,9).activate();
+  spreadsheet.getActiveRangeList().setBackground('#fff999');
+        }
+        }
+        else {
+   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(i,1,i,9).activate();
+  spreadsheet.getActiveRangeList().setBackground(null);
+        }
+      }
+  //vypis dovolenky, kod je neefektivny ale robi co ma nechcelo sa mi to skracovat viac tam toho uz aj tak nebude, dufam :D
+  if(mesiac=="Január")
+  {cisloMesiaca=1};
+  if(mesiac=="Február")
+  {cisloMesiaca=2};
+  if(mesiac=="Marec")
+  {cisloMesiaca=3};
+  if(mesiac=="Apríl")
+  {cisloMesiaca=4};
+  if(mesiac=="Máj")
+  { cisloMesiaca=5};
+  if(mesiac=="Jún")
+  { cisloMesiaca=6};
+  if(mesiac=="Júl")
+  { cisloMesiaca=7};
+  if(mesiac=="August")
+  {cisloMesiaca=8};
+  if(mesiac=="September")
+  {cisloMesiaca=9};
+  if(mesiac=="Október")
+  { cisloMesiaca=10};
+  if(mesiac=="November")
+  {cisloMesiaca=11};
+  if(mesiac=="December")
+  { cisloMesiaca=12};
+  
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").clearContents();
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").clearContents();
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").clearContents();
+  
+for (var i = 5; i < 60; i++)
+{
+  var dovolenka=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue();
+  var denDovolenky=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 2).getValue();
+  
+  
+  if(dovolenka=="D" && poradieListka==1 )
+  {
+    volno=0;
+    pocetDovolenky=0
+    while(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 8).getValue()=="")
+    {
+      if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()=="D")
+      {
+        pocetDovolenky++;
+        koniecDovolenky=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 2).getValue()
+      }
+      /*if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()!="D")
+      {
+        volno++;
+      }*/
+      i++;
+    }
+    
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("D3").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 24).getValue())
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("K3").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 29).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("D5").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 22).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H6").setValue(rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("C8").setValue(denDovolenky +"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("E8").setValue((koniecDovolenky)+"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H8").setValue(pocetDovolenky)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("C12").setValue("1."+cisloMesiaca+"."+rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("F16").setValue("1."+cisloMesiaca+"."+rok)
+      if(poradieMena<9)
+        SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H16").setValue('=\'mennaDochadzka\'!AB14')
+      if(poradieMena>8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H16").setValue('=\'mennaDochadzka\'!AB13')
+      
+  if(poradieMena==1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB1')
+  if(poradieMena==2)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB2')
+  if(poradieMena==3)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB3')
+  if(poradieMena==4)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB4')
+  if(poradieMena==5)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB5')
+  if(poradieMena==6)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB6')
+  if(poradieMena==7)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB7')
+  if(poradieMena==8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB8')
+  if(poradieMena==9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB9')
+  if(poradieMena==10)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB10')
+  if(poradieMena==11)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB11')
+  if(poradieMena==12)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J12").setValue('=\'mennaDochadzka\'!AB12')
+      
+  poradieListka=2;
+   dovolenka="";
+  }
+  
+  if(dovolenka=="D" && poradieListka==2 )
+  {
+    volno=0;
+    pocetDovolenky=0
+    while(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 8).getValue()=="")
+    {
+      if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()=="D")
+      {
+        pocetDovolenky++;
+        koniecDovolenky=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 2).getValue()
+      }
+      /*if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()!="D")
+      {
+        volno++;
+      }*/
+      i++;
+    }
+    
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("D25").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 24).getValue())
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("K25").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 29).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("D26").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 22).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H27").setValue(rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("C29").setValue(denDovolenky +"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("E29").setValue((koniecDovolenky)+"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H29").setValue(pocetDovolenky)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("C32").setValue("1."+cisloMesiaca+"."+rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("F35").setValue("1."+cisloMesiaca+"."+rok)
+      if(poradieMena<9)
+        SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H35").setValue('=\'mennaDochadzka\'!AB14')
+      if(poradieMena>8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("H35").setValue('=\'mennaDochadzka\'!AB13')
+      
+  if(poradieMena==1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB1')
+  if(poradieMena==2)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB2')
+  if(poradieMena==3)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB3')
+  if(poradieMena==4)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB4')
+  if(poradieMena==5)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB5')
+  if(poradieMena==6)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB6')
+  if(poradieMena==7)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB7')
+  if(poradieMena==8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB8')
+  if(poradieMena==9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB9')
+  if(poradieMena==10)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB10')
+  if(poradieMena==11)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB11')
+  if(poradieMena==12)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka1").getRange("J32").setValue('=\'mennaDochadzka\'!AB12')
+      
+  poradieListka=3;
+   dovolenka="";
+  }
+  
+  if(dovolenka=="D" && poradieListka==3 )
+  {
+    volno=0;
+    pocetDovolenky=0
+    while(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 8).getValue()=="")
+    {
+      if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()=="D")
+      {
+        pocetDovolenky++;
+        koniecDovolenky=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 2).getValue()
+      }
+      /*if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()!="D")
+      {
+        volno++;
+      }*/
+      i++;
+    }
+    
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("D3").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 24).getValue())
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("K3").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 29).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("D5").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 22).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H6").setValue(rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("C8").setValue(denDovolenky +"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("E8").setValue((koniecDovolenky)+"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H8").setValue(pocetDovolenky)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("C12").setValue("1."+cisloMesiaca+"."+rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("F16").setValue("1."+cisloMesiaca+"."+rok)
+      if(poradieMena<9)
+        SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H16").setValue('=\'mennaDochadzka\'!AB14')
+      if(poradieMena>8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H16").setValue('=\'mennaDochadzka\'!AB13')
+      
+  if(poradieMena==1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB1')
+  if(poradieMena==2)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB2')
+  if(poradieMena==3)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB3')
+  if(poradieMena==4)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB4')
+  if(poradieMena==5)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB5')
+  if(poradieMena==6)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB6')
+  if(poradieMena==7)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB7')
+  if(poradieMena==8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB8')
+  if(poradieMena==9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB9')
+  if(poradieMena==10)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB10')
+  if(poradieMena==11)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB11')
+  if(poradieMena==12)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J12").setValue('=\'mennaDochadzka\'!AB12')
+      
+  poradieListka=4;
+   dovolenka="";
+  }
+  
+  if(dovolenka=="D" && poradieListka==4 )
+  {
+    volno=0;
+    pocetDovolenky=0
+    while(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 8).getValue()=="")
+    {
+      if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()=="D")
+      {
+        pocetDovolenky++;
+        koniecDovolenky=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 2).getValue()
+      }
+      /*if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()!="D")
+      {
+        volno++;
+      }*/
+      i++;
+    }
+    
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("D25").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 24).getValue())
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("K25").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 29).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("D26").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 22).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H27").setValue(rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("C29").setValue(denDovolenky +"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("E29").setValue((koniecDovolenky)+"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H29").setValue(pocetDovolenky)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("C32").setValue("1."+cisloMesiaca+"."+rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("F35").setValue("1."+cisloMesiaca+"."+rok)
+      if(poradieMena<9)
+        SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H35").setValue('=\'mennaDochadzka\'!AB14')
+      if(poradieMena>8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("H35").setValue('=\'mennaDochadzka\'!AB13')
+      
+  if(poradieMena==1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB1')
+  if(poradieMena==2)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB2')
+  if(poradieMena==3)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB3')
+  if(poradieMena==4)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB4')
+  if(poradieMena==5)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB5')
+  if(poradieMena==6)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB6')
+  if(poradieMena==7)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB7')
+  if(poradieMena==8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB8')
+  if(poradieMena==9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB9')
+  if(poradieMena==10)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB10')
+  if(poradieMena==11)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB11')
+  if(poradieMena==12)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka2").getRange("J32").setValue('=\'mennaDochadzka\'!AB12')
+      
+  poradieListka=5;
+   dovolenka="";
+  }
+  
+  if(dovolenka=="D" && poradieListka==5 )
+  {
+    volno=0;
+    pocetDovolenky=0
+    while(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 8).getValue()=="")
+    {
+      if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()=="D")
+      {
+        pocetDovolenky++;
+        koniecDovolenky=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i1, 2).getValue()
+      }
+      /*(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()!="D")
+      {
+        volno++;
+      }*/
+      i++;
+    }
+    
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("D3").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 24).getValue())
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("K3").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 29).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("D5").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 22).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H6").setValue(rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("C8").setValue(denDovolenky +"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("E8").setValue((koniecDovolenky)+"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H8").setValue(pocetDovolenky)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("C12").setValue("1."+cisloMesiaca+"."+rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("F16").setValue("1."+cisloMesiaca+"."+rok)
+      if(poradieMena<9)
+        SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H16").setValue('=\'mennaDochadzka\'!AB14')
+      if(poradieMena>8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H16").setValue('=\'mennaDochadzka\'!AB13')
+      
+  if(poradieMena==1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB1')
+  if(poradieMena==2)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB2')
+  if(poradieMena==3)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB3')
+  if(poradieMena==4)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB4')
+  if(poradieMena==5)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB5')
+  if(poradieMena==6)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB6')
+  if(poradieMena==7)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB7')
+  if(poradieMena==8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB8')
+  if(poradieMena==9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB9')
+  if(poradieMena==10)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB10')
+  if(poradieMena==11)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB11')
+  if(poradieMena==12)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J12").setValue('=\'mennaDochadzka\'!AB12')
+      
+  poradieListka=6;
+   dovolenka="";
+  }
+  
+  if(dovolenka=="D" && poradieListka==6 )
+  {
+    volno=0;
+    pocetDovolenky=0
+    while(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 8).getValue()=="")
+    {
+      if(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()=="D")
+      {
+        pocetDovolenky++;
+        koniecDovolenky=SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 2).getValue()
+      }
+      /*(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(i, 9).getValue()!="D")
+      {
+        volno++;
+      }*/
+      i++;
+    }
+    
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("D25").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 24).getValue())
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("K25").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 29).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("D26").setValue(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(poradieMena, 22).getValue())   
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H27").setValue(rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("C29").setValue(denDovolenky +"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("E29").setValue((koniecDovolenky)+"."+cisloMesiaca+".")
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H29").setValue(pocetDovolenky)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("C32").setValue("1."+cisloMesiaca+"."+rok)
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("F35").setValue("1."+cisloMesiaca+"."+rok)
+      if(poradieMena<9)
+        SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H35").setValue('=\'mennaDochadzka\'!AB14')
+      if(poradieMena>8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("H35").setValue('=\'mennaDochadzka\'!AB13')
+      
+  if(poradieMena==1)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB1')
+  if(poradieMena==2)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB2')
+  if(poradieMena==3)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB3')
+  if(poradieMena==4)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB4')
+  if(poradieMena==5)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB5')
+  if(poradieMena==6)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB6')
+  if(poradieMena==7)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB7')
+  if(poradieMena==8)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB8')
+  if(poradieMena==9)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB9')
+  if(poradieMena==10)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB10')
+  if(poradieMena==11)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB11')
+  if(poradieMena==12)
+      SpreadsheetApp.getActiveSpreadsheet().getSheetByName("vzorDovolenka3").getRange("J32").setValue('=\'mennaDochadzka\'!AB12')
+      
+   dovolenka="";
+  }
+  
+}
+  
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka");
+  spreadsheet.getRange(3,12).activate();
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("mennaDochadzka").getRange(3, 12).setValue("HOTOVO")
+  spreadsheet.getActiveRangeList().setBackground('#00ffff');
+  
+  
+  
+}
 
